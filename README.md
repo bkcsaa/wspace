@@ -7,3 +7,5 @@ The primary container is the ubuntu one.  It uses a base Ubuntu 18.04 LTS and ad
 - Boto 3
 - aws-cli
 - cf cli
+
+This container expects for /root and /csaa to be mapped to relevant volumes.
