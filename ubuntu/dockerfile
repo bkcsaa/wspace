@@ -5,11 +5,14 @@
 ##
 FROM ubuntu:18.04
 
+WORKDIR /root
+
 RUN apt-get update -y && apt-get install -y \
   build-essential \
   git \
   htop \
   jq \
+  dnsutils \
   libffi-dev \
   libssl-dev \
   libxslt-dev \
@@ -28,41 +31,12 @@ RUN apt-get update -y && apt-get install -y \
   curl \
   zip
 
-
-
-
-
-# RUN yum -y update && yum -y install \
-#   epel-release \
-#   gcc \
-#   git \
-#   htop \
-#   jq \
-#   libffi-dev \
-#   libffi-devel \
-#   libssl-dev \
-#   libxslt-devel \
-#   libxml2-devel \
-#   pyOpenSSL \
-#   python27 \
-#   python27-cffi \
-#   python27-dev \
-#   python27-devel \
-#   python2-pip \
-#   openssl-dev \
-#   openssl-devel \
-#   tmux \
-#   tree \
-#   vim \
-#   wget \
-#   zip
-
-
 RUN pip install \
   ansible \
   aws-adfs \
   awscli \
-  boto3
+  boto3 \
+  aws-shell
 
 ## Install CloudFoundry Tools
 
@@ -70,6 +44,10 @@ RUN pip install \
 RUN wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | apt-key add -
 RUN echo "deb https://packages.cloudfoundry.org/debian stable main" | tee /etc/apt/sources.list.d/cloudfoundry-cli.list
 RUN apt-get update -y && apt-get install -y cf-cli && cf install-plugin -f cflocal
+
+# Install usage-report plugin
+# USAGE: cf usage-report -o <space>
+RUN cf install-plugin -f 'Usage Report' -r CF-Community
 
 RUN \
   ansible --version; \
@@ -82,7 +60,3 @@ RUN \
   tree --version; \
   wget --version; \
   cf local version;
-
-
-
-
