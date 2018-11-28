@@ -3,12 +3,16 @@
 ## 
 ## Ubuntu
 ##
-FROM ubuntu:18.04
+FROM ubuntu:bionic
 
 WORKDIR /root
 
 RUN apt-get update -y && apt-get install -y \
   build-essential \
+  apt-transport-https \
+  software-properties-common \
+  ca-certificates \
+  apt-utils \
   git \
   htop \
   jq \
@@ -29,7 +33,10 @@ RUN apt-get update -y && apt-get install -y \
   vim \
   wget \
   curl \
-  zip
+  groff-base \
+  zip \
+  nodejs \
+  ruby-full
 
 RUN pip install \
   ansible \
@@ -37,6 +44,17 @@ RUN pip install \
   awscli \
   boto3 \
   aws-shell
+
+## Install Docker tools, will use the host daemon via a mapped volume to the local socket /var/run/docker.sock
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - && \
+  add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
+    && apt-get update \
+    && apt-get install -y docker-ce
+
+## Install kubectl (k8s)
+RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
+  echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list && \
+  apt-get update && apt-get install -y kubectl
 
 ## Install CloudFoundry Tools
 
@@ -48,6 +66,11 @@ RUN apt-get update -y && apt-get install -y cf-cli && cf install-plugin -f cfloc
 # Install usage-report plugin
 # USAGE: cf usage-report -o <space>
 RUN cf install-plugin -f 'Usage Report' -r CF-Community
+RUN cf install-plugin -f 'Service Instance Logging' -r CF-Community
+
+# Set flag to force container updates
+ARG FORCE_UPGRADE=no
+RUN apt-get update -y && apt-get upgrade -y
 
 RUN \
   ansible --version; \
@@ -59,4 +82,7 @@ RUN \
   tmux -V; \
   tree --version; \
   wget --version; \
+  ruby --version; \
   cf local version;
+
+CMD [/bin/bash]

@@ -6,7 +6,7 @@
 FROM amazonlinux:latest
 
 RUN yum -y update && yum -y install \
-  epel-release \
+  https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
   gcc \
   git \
   htop \
@@ -25,6 +25,7 @@ RUN yum -y update && yum -y install \
   openssl-dev \
   openssl-devel \
   tmux \
+  htop \
   tree \
   vim \
   wget \
@@ -37,6 +38,17 @@ RUN pip install \
   awscli \
   boto3
 
+# TODO: Add cf CLI
+# Install usage-report plugin
+# USAGE: cf usage-report -o <space>
+#RUN cf install-plugin 'Usage Report' -r CF-Community
+
+
+# Set flag to force container updates
+ARG FORCE_UPGRADE=no
+RUN yum check-update -y && yum update -y
+
+# Run versions check
 RUN \
   ansible --version; \
   aws --version; \
