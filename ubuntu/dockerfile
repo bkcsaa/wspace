@@ -36,7 +36,8 @@ RUN apt-get update -y && apt-get install -y \
   groff-base \
   zip \
   nodejs \
-  ruby-full
+  ruby-full \
+  openjdk-8-jdk
 
 RUN pip install \
   ansible \
