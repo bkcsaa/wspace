@@ -46,6 +46,9 @@ RUN pip install \
   boto3 \
   aws-shell
 
+  ## Add octokit for GitHub API with Ruby
+  RUN gem install octokit
+
 ## Install Docker tools, will use the host daemon via a mapped volume to the local socket /var/run/docker.sock
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - && \
   add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
@@ -58,6 +61,9 @@ RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add 
   apt-get update && apt-get install -y kubectl
 
 ## Install CloudFoundry Tools
+
+# Install bosh-cli
+RUN wget -q -O /usr/bin/bosh https://github.com/cloudfoundry/bosh-cli/releases/download/v5.4.0/bosh-cli-5.4.0-linux-amd64 && chmod +x /usr/bin/bosh
 
 # Install cf-cli
 RUN wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | apt-key add -
