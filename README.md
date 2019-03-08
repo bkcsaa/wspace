@@ -16,7 +16,7 @@ An additional mapping to allow docker is performed as well /var/run/docker.sock
 ## Build
 The following command will build the container image. The use for FORCE_UPGRADE will force an update from the package manager.
 ```
-docker build --build-arg FORCE_UPGRADE="20181127" -t n01apl4385.tent.trt.csaa.pri/blairk/ubu-wspace ubuntu/
+docker build --build-arg FORCE_UPGRADE="$(date +%F)" -t n01apl4385.tent.trt.csaa.pri/blairk/ubu-wspace ubuntu/
 
 docker tag n01apl4385.tent.trt.csaa.pri/blairk/ubu-wspace n01apl4385.tent.trt.csaa.pri/blairk/ubu-wspace:<version number>
 ```
