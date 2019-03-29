@@ -93,6 +93,7 @@ RUN \
   tree --version; \
   wget --version; \
   ruby --version; \
-  cf local version;
+  cf local version; \
+  fly -v;
 
 CMD [/bin/bash]

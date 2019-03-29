@@ -43,6 +43,12 @@ RUN pip install \
 # USAGE: cf usage-report -o <space>
 #RUN cf install-plugin 'Usage Report' -r CF-Community
 
+# Install bosh-cli
+RUN wget -q -O /usr/bin/bosh https://github.com/cloudfoundry/bosh-cli/releases/download/v5.4.0/bosh-cli-5.4.0-linux-amd64 && chmod +x /usr/bin/bosh
+
+# Install Concourse CLI (fly)
+RUN wget -q -O /usr/bin/fly https://github.com/concourse/concourse/releases/download/v4.2.3/concourse_linux_amd64 && chmod +x /usr/bin/fly
+
 
 # Set flag to force container updates
 ARG FORCE_UPGRADE=no
@@ -58,4 +64,5 @@ RUN \
   jq --version; \
   tmux -V; \
   tree --version; \
-  wget --version
+  wget --version; \
+  fly -v
