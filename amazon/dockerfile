@@ -52,7 +52,7 @@ RUN wget -q -O /usr/bin/fly https://github.com/concourse/concourse/releases/down
 
 # Set flag to force container updates
 ARG FORCE_UPGRADE=no
-RUN yum check-update -y && yum update -y
+RUN yum update -y
 
 # Run versions check
 RUN \
