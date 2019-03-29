@@ -65,6 +65,9 @@ RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add 
 # Install bosh-cli
 RUN wget -q -O /usr/bin/bosh https://github.com/cloudfoundry/bosh-cli/releases/download/v5.4.0/bosh-cli-5.4.0-linux-amd64 && chmod +x /usr/bin/bosh
 
+# Install Concourse CLI (fly)
+RUN wget -q -O /usr/bin/fly https://github.com/concourse/concourse/releases/download/v4.2.3/concourse_linux_amd64 && chmod +x /usr/bin/fly
+
 # Install cf-cli
 RUN wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | apt-key add -
 RUN echo "deb https://packages.cloudfoundry.org/debian stable main" | tee /etc/apt/sources.list.d/cloudfoundry-cli.list
