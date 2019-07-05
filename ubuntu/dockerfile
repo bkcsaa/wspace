@@ -44,7 +44,9 @@ RUN pip install \
   aws-adfs \
   awscli \
   boto3 \
-  aws-shell
+  aws-shell \
+  aws-sam-cli
+
 
   ## Add octokit for GitHub API with Ruby
   RUN gem install octokit
@@ -95,5 +97,7 @@ RUN \
   ruby --version; \
   cf local version; \
   fly -v;
+
+EXPOSE 3000
 
 CMD [/bin/bash]

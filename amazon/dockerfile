@@ -29,8 +29,21 @@ RUN yum -y update && yum -y install \
   tree \
   vim \
   wget \
-  zip
+  zip \
+  ruby \
+  yum-utils \
+  device-mapper-persistent-data \
+  lvm2
 
+# add the amazon linux extras
+# amazon-linux-extras install ruby24
+
+  # Add the docker repo
+RUN yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+
+RUN yum -y install docker-ce-cli
 
 RUN pip install \
   ansible \
@@ -56,6 +69,7 @@ RUN yum update -y
 
 # Run versions check
 RUN \
+  docker --version; \
   ansible --version; \
   aws --version; \
   aws-adfs --version; \
@@ -65,4 +79,5 @@ RUN \
   tmux -V; \
   tree --version; \
   wget --version; \
-  fly -v
+  fly -v; \
+  ruby -v; 

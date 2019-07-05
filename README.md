@@ -18,16 +18,23 @@ The following command will build the container image. The use for FORCE_UPGRADE 
 ```
 docker build --build-arg FORCE_UPGRADE="$(date +%F)" -t n01apl4385.tent.trt.csaa.pri/blairk/ubu-wspace ubuntu/
 
+docker build --build-arg FORCE_UPGRADE="2019-07015" -t blairk/amazonlinux .\amazon\
+
 docker tag n01apl4385.tent.trt.csaa.pri/blairk/ubu-wspace n01apl4385.tent.trt.csaa.pri/blairk/ubu-wspace:<version number>
 ```
 
 ## Sample run command
+
+### Ubuntu
 `docker run --rm -ti -v /c/Users/gchkenn/docker/fs/root:/root -v /c/Users/gchkenn:/csaa bkcsaa/ubu-wspace`
+
+### Amazon Linux 2
+`PS C:\Users\gchkenn\docker\wspace> docker run --rm -it -v /c/Users/gchkenn/.ssh/id_rsa:/root/.ssh/id_rsa -v /var/run/docker.sock:/var/run/docker.sock -v /c/Users/gchkenn:/csaa bkcsaa/amazonlinux /bin/bash`
 
 A local powershell function may be defined to simplify this:
 ```
 # define a function to start amazon-based workspace
-function aw () { docker run --rm -ti bkcsaa/amz-wspace /bin/bash }
+function aw () { docker run --rm -ti -v /var/run/docker.sock:/var/run/docker.sock bkcsaa/amz-wspace /bin/bash }
 function uw () { docker run --rm -ti -v /var/run/docker.sock:/var/run/docker.sock -v /c/Users/gchkenn/docker/fs/root:/root -v /c/Users/gchkenn:/csaa bkcsaa/ubu-wspace /bin/bash }
 PS C:\Users\gchkenn\docker\wspace>
 ```
